@@ -7,4 +7,7 @@
 
 body {
   font-family: 'Times New Roman', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: vh;
 }

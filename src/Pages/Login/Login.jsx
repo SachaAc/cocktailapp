@@ -17,12 +17,12 @@ function Login() {
             <h1>Login</h1>
             <form onSubmit={handleLogin} className="loginform">
                 <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Wachtwoord" />
-                <button type="submit" className="loginbutton">Inloggen</button>
+                <input type="password" placeholder="Password" />
+                <button type="submit" className="loginbutton">Log in</button>
             </form>
 
             <p className="register">
-                Nog geen account? <Link to="/register">Registreer hier</Link>
+                No account yet? <Link to="/register">Register here</Link>
             </p>
                 </div>
             </main>

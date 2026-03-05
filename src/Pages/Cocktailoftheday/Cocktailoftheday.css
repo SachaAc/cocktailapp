@@ -1,7 +1,26 @@
 .cocktailofthedaywrapper{
-    border: 1px solid grey;
+    border: 3px solid grey;
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin: 10px 0;
+}
+
+.cocktailofthedayimage {
+    width: 40%;
+    padding: 20px 0;
+}
+
+.cocktailcard {
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.cocktailofthedaybutton {
+    margin-top: 100px;
 }
