@@ -2,7 +2,14 @@ import './App.css';
 import axios from "axios";
 import {useState} from "react";
 import { Routes, Route } from 'react-router-dom';
+
 import Navigation from "./Pages/Navigation/Navigation.jsx";
+import Home from "./Pages/Home/Home.jsx";
+import Login from "./Pages/Login/Login.jsx";
+import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
+import Discover from "./Pages/Discover/Discover.jsx";
+import Detail from "./Pages/Detail/Detail.jsx";
+import Favorites from "./Pages/Favorites/Favorites.jsx";
 
 
 function App() {
@@ -20,6 +27,7 @@ function App() {
                 <Route path="/favorites" element={<Favorites/>}/>
             </Routes>
             {/* Eventuele footer ... */}
+            </>
     )
 }
 

@@ -1,7 +1,7 @@
 import './Cocktailoftheday.css';
 import axios from 'axios';
 
-function CocktailOfTheDay() {
+function CocktailoftheDay() {
     // Hier moet een random cocktail worden opgehaald met een async await function
 
     return (
@@ -14,4 +14,4 @@ function CocktailOfTheDay() {
     )
 }
 
-export default CocktailOfTheDay;
+export default Cocktailoftheday;

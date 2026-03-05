@@ -20,7 +20,7 @@ function Navigation() {
                         to="/login"
                         className={getClass}>
                         Login
-                    < /NavLink>
+                    </NavLink>
                 </li>
                 <li>
                     <NavLink
