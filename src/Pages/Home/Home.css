@@ -1,0 +1,12 @@
+.homepagewrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px solid red;
+}
+
+.cocktailhomepage {
+    width: 40%;
+    padding: 50px 0;
+}
+

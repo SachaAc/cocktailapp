@@ -1,7 +1,20 @@
 .active-menu-link {
-    border-bottom: none;
+    border-bottom: 1px solid black;
 }
 
 .default-menu-link {
-    border-bottom: 1px solid black;
+    border-bottom: none;
+}
+
+.navigationlist {
+    border: 1px solid hotpink;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    list-style: none;
+    margin: 10px 0;
+}
+
+.navigationitems {
+    padding: 0 15px;
 }

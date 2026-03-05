@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import './Navigation.css';
 
 function Navigation() {
 
@@ -7,43 +8,43 @@ function Navigation() {
 
     return (
         <nav>
-            <ul>
-                <li>
+            <ul className="navigationlist">
+                <li className="navigationitems">
                     <NavLink
                         to="/"
                         className={getClass}>
                         Home
                     </NavLink>
                 </li>
-                <li>
+                <li className="navigationitems">
                     <NavLink
                         to="/login"
                         className={getClass}>
                         Login
                     </NavLink>
                 </li>
-                <li>
+                <li className="navigationitems">
                     <NavLink
                         to="/cocktailoftheday"
                         className={getClass}>
-                        Cocktail of the day
+                        Cocktail of the Day
                     </NavLink>
                 </li>
-                <li>
+                <li className="navigationitems">
                     <NavLink
                         to="/discover"
                         className={getClass}>
                         Discover Cocktails
                     </NavLink>
                 </li>
-                <li>
+                <li className="navigationitems">
                     <NavLink
                         to="/detail"
                         className={getClass}>
-                        Cocktail details
+                        Cocktail Details
                     </NavLink>
                 </li>
-                <li>
+                <li className="navigationitems">
                     <NavLink
                         to="/favorites"
                         className={getClass}>
