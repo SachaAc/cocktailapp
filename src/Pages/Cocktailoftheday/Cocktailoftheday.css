@@ -24,8 +24,14 @@
 }
 
 .cocktailofthedaybutton {
-    width: 30vw;
+    width: 40vw;
     margin-top: 100px;
+    padding: 20px 50px;
+    font-size: 2rem;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #9DB78A;
 }
 
 .cocktailinfo {

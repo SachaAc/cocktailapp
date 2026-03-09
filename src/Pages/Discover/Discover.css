@@ -16,7 +16,7 @@
 
 .cocktailsearcharticle {
     border: 1px solid grey;
-    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     flex: 0 1 250px;
@@ -24,9 +24,21 @@
     margin: 10px 10px;
 }
 
-.cocktailsearchfield {
+.cocktailsearchfieldwrapper {
     border: 1px solid blue;
+    background-color: #9DB78A;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    width: 50vw;
+    margin: 0 auto;
+    padding: 10px 10px;
+}
+
+.cocktailsearchfield {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .cocktailsearchimage {
@@ -37,4 +49,9 @@
 .cocktailsearchtitle {
     height: 6vh;
     border: 1px solid pink;
+}
+
+input,
+select {
+    margin-left: 2px;
 }

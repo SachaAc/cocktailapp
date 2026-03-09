@@ -76,9 +76,10 @@ function CocktailSearch() {
 
     return (
         <>
-            <div className="cocktailsearchfield">
+            <main>
+            <div className="cocktailsearchfieldwrapper">
                 <h2 className="cocktailfinder">Cocktail Finder</h2>
-
+<span className="cocktailsearchfield">
                 <label>Name:
                     <input
                         type="text"
@@ -109,6 +110,7 @@ function CocktailSearch() {
                 <button onClick={resetFilters}>Reset</button>
 
                 {cocktails.length === 0 && !loading && <p>No cocktails found</p>}
+    </span>
             </div>
 
             <div className="cocktailsearchwrapper">
@@ -131,8 +133,10 @@ function CocktailSearch() {
                     </div>
                 ))}
             </div>
+            </main>
         </>
     );
+
 }
 
 export default CocktailSearch;
