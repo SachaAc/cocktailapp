@@ -30,18 +30,33 @@ function CocktailSearch() {
         try {
             let drinks = [];
 
+            // Zoek op naam → volledige data
             if (searchName) {
                 const res = await axios.get(
                     `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchName}`
                 );
                 drinks = Array.isArray(res.data.drinks) ? res.data.drinks : [];
-            } else if (ingredient) {
+            }
+
+            // Zoek op ingredient → eerst basisdata, daarna per ID volledige data ophalen
+            else if (ingredient) {
                 const res = await axios.get(
                     `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`
                 );
-                drinks = Array.isArray(res.data.drinks) ? res.data.drinks : [];
-            } else {
-                drinks = [];
+
+                const basicDrinks = Array.isArray(res.data.drinks) ? res.data.drinks : [];
+
+                // Haal volledige details op per cocktail
+                const fullDrinks = await Promise.all(
+                    basicDrinks.map(async (drink) => {
+                        const detailRes = await axios.get(
+                            `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`
+                        );
+                        return detailRes.data.drinks ? detailRes.data.drinks[0] : null;
+                    })
+                );
+
+                drinks = fullDrinks.filter(Boolean);
             }
 
             setCocktails(drinks);
@@ -60,82 +75,63 @@ function CocktailSearch() {
     };
 
     return (
-        <div>
-            <h2>Cocktail Finder</h2>
-            <label>Name:
-                <input
-                    type="text"
-                    placeholder="Search cocktail name"
-                    value={searchName}
-                    onChange={(e) => setSearchName(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            fetchCocktails();
-                        }
-                    }}
-                /></label>
+        <>
+            <div className="cocktailsearchfield">
+                <h2 className="cocktailfinder">Cocktail Finder</h2>
 
-            <label>Ingredient
-                <select value={ingredient} onChange={(e) => setIngredient(e.target.value)}>
-                    <option value=""></option>
-                    <option value="Vodka">Vodka</option>
-                    <option value="Gin">Gin</option>
-                    <option value="Rum">Rum</option>
-                    <option value="Tequila">Tequila</option>
-                </select></label>
+                <label>Name:
+                    <input
+                        type="text"
+                        placeholder="Search cocktail name"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && fetchCocktails()}
+                    />
+                </label>
 
-            <br/><br/>
-            <button onClick={fetchCocktails} disabled={loading}>
-                {loading ? "Loading..." : "Search"}
-            </button>
-            <button onClick={resetFilters}>Reset</button>
-
-            <hr/>
-
-            {cocktails.length === 0 && !loading && <p>No cocktails found</p>}
-
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))",
-                    gap: "20px",
-                }}
-            >
-                {cocktails.map((drink) => (
-                    <div
-                        key={drink.idDrink}
-                        style={{border: "1px solid #ccc", padding: "10px"}}
+                <label>Ingredient
+                    <select
+                        value={ingredient}
+                        onChange={(e) => setIngredient(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && fetchCocktails()}
                     >
-                        <h3>{drink.strDrink}</h3>
-                        <img src={drink.strDrinkThumb} alt={drink.strDrink} width="150"/>
+                        <option value=""></option>
+                        <option value="Vodka">Vodka</option>
+                        <option value="Gin">Gin</option>
+                        <option value="Rum">Rum</option>
+                        <option value="Tequila">Tequila</option>
+                    </select>
+                </label>
 
-                        <p><strong>Ingredients: </strong></p>
-                        <p>{drink.strMeasure1} {drink.strIngredient1}</p>
-                        <p>{drink.strMeasure2} {drink.strIngredient2}</p>
-                        <p>{drink.strMeasure3} {drink.strIngredient3}</p>
-                        <p>{drink.strMeasure4} {drink.strIngredient4}</p>
-                        <p>{drink.strMeasure5} {drink.strIngredient5}</p>
-                        <p>{drink.strMeasure6} {drink.strIngredient6}</p>
-                        <p>{drink.strMeasure7} {drink.strIngredient7}</p>
-                        <p>{drink.strMeasure8} {drink.strIngredient8}</p>
-                        <p>{drink.strMeasure9} {drink.strIngredient9}</p>
-                        <p>{drink.strMeasure10} {drink.strIngredient10}</p>
-                        <p>{drink.strMeasure11} {drink.strIngredient11}</p>
-                        <p>{drink.strMeasure12} {drink.strIngredient12}</p>
-                        <p>{drink.strMeasure13} {drink.strIngredient13}</p>
-                        <p>{drink.strMeasure14} {drink.strIngredient14}</p>
-                        <p>{drink.strMeasure15} {drink.strIngredient15}</p>
+                <button onClick={fetchCocktails} disabled={loading}>
+                    {loading ? "Loading..." : "Search"}
+                </button>
+                <button onClick={resetFilters}>Reset</button>
 
-                        <p><strong>Type of drink: </strong>{drink.strCategory}</p>
-                        <p><strong>Alcoholic? </strong>{drink.strAlcoholic}</p>
-                        <p><strong>Type of glass: </strong>{drink.strGlass}</p>
+                {cocktails.length === 0 && !loading && <p>No cocktails found</p>}
+            </div>
 
-                        <p><strong>Recept: </strong>{drink.strInstructions}</p>
+            <div className="cocktailsearchwrapper">
+                {cocktails.map((drink) => (
+                    <div className="cocktailsearcharticle" key={drink.idDrink}>
+                        <h3 className="cocktailsearchtitle">{drink.strDrink}</h3>
+                        <img src={drink.strDrinkThumb} alt={drink.strDrink} className="cocktailsearchimage"/>
 
+                        <p><strong>Ingredients:</strong></p>
+                        {[...Array(15)].map((_, i) => {
+                            const ing = drink[`strIngredient${i+1}`];
+                            const mea = drink[`strMeasure${i+1}`];
+                            return ing ? <p key={i}>{mea} {ing}</p> : null;
+                        })}
+
+                        <p className="cocktailinfo"><strong>Type of drink:</strong> {drink.strCategory}</p>
+                        <p className="cocktailinfo"><strong>Alcoholic?</strong> {drink.strAlcoholic}</p>
+                        <p className="cocktailinfo"><strong>Type of glass:</strong> {drink.strGlass}</p>
+                        <p className="cocktailinfo"><strong>Recept:</strong> {drink.strInstructions}</p>
                     </div>
                 ))}
             </div>
-        </div>
+        </>
     );
 }
 

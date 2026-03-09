@@ -1,3 +1,40 @@
 .cocktailinfo {
+    margin-top: 10px;
+}
+
+.cocktailfinder {
     margin-bottom: 10px;
+}
+
+.cocktailsearchwrapper {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.cocktailsearcharticle {
+    border: 1px solid grey;
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 250px;
+    padding: 0 10px;
+    margin: 10px 10px;
+}
+
+.cocktailsearchfield {
+    border: 1px solid blue;
+    text-align: center;
+}
+
+.cocktailsearchimage {
+    width: 100%;
+    padding: 20px 0;
+}
+
+.cocktailsearchtitle {
+    height: 6vh;
+    border: 1px solid pink;
 }
