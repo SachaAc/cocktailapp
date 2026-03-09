@@ -10,6 +10,7 @@ import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
 import Discover from "./Pages/Discover/Discover.jsx";
 import Detail from "./Pages/Detail/Detail.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
+import Register from "./Pages/Register/Register.jsx";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/discover" element={<Discover/>}/>
                 <Route path="/detail" element={<Detail/>}/>
                 <Route path="/favorites" element={<Favorites/>}/>
+                <Route path="/register" element={<Register/>}/>
             </Routes>
             {/* Eventuele footer ... */}
             </>

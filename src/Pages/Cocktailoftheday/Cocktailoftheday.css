@@ -7,7 +7,7 @@
 }
 
 .cocktailofthedayimage {
-    width: 40%;
+    width: 70%;
     padding: 20px 0;
 }
 
@@ -17,10 +17,17 @@
     flex-direction: column;
     align-items: center;
     align-content: center;
+    text-align: center;
     flex-wrap: wrap;
     margin-top: 20px;
+    width: 50vw;
 }
 
 .cocktailofthedaybutton {
+    width: 30vw;
     margin-top: 100px;
+}
+
+.cocktailinfo {
+    margin-bottom: 10px;
 }
