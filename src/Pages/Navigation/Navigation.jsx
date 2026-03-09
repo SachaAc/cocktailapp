@@ -39,13 +39,6 @@ function Navigation() {
                 </li>
                 <li className="navigationitems">
                     <NavLink
-                        to="/detail"
-                        className={getClass}>
-                        Cocktail Details
-                    </NavLink>
-                </li>
-                <li className="navigationitems">
-                    <NavLink
                         to="/favorites"
                         className={getClass}>
                         Favorites

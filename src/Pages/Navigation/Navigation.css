@@ -1,9 +1,11 @@
 .active-menu-link {
     border-bottom: 1px solid black;
+    text-decoration: none;
 }
 
 .default-menu-link {
     border-bottom: none;
+    text-decoration: none;
 }
 
 .navigationlist {
