@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import './Discover.css'
+import clouds from "../../assets/clouds.jpg";
+import whitesatin from "../../assets/whitesatin.jpg";
 
 function CocktailSearch() {
     const [cocktails, setCocktails] = useState([]);
@@ -77,7 +79,11 @@ function CocktailSearch() {
     return (
         <>
             <main>
-            <div className="cocktailsearchfieldwrapper">
+            <div className="cocktailsearchfieldwrapper"
+                 style={{
+                     backgroundImage: `url(${clouds})`,
+                     backgroundSize: "cover",
+                     backgroundPosition: "center"}}>
                 <h2 className="cocktailfinder">Cocktail Finder</h2>
 <span className="cocktailsearchfield">
                 <label>Name:
@@ -115,7 +121,11 @@ function CocktailSearch() {
 
             <div className="cocktailsearchwrapper">
                 {cocktails.map((drink) => (
-                    <div className="cocktailsearcharticle" key={drink.idDrink}>
+                    <div className="cocktailsearcharticle" key={drink.idDrink}
+                         style={{
+                             backgroundImage: `url(${whitesatin})`,
+                             backgroundSize: "cover",
+                             backgroundPosition: "center"}}>
                         <h3 className="cocktailsearchtitle">{drink.strDrink}</h3>
                         <img src={drink.strDrinkThumb} alt={drink.strDrink} className="cocktailsearchimage"/>
 

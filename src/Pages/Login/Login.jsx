@@ -1,6 +1,8 @@
-import { useNavigate, Link } from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import './Login.css';
 import React from 'react';
+import clouds from "../../assets/clouds.jpg";
+import whitesatin from "../../assets/whitesatin.jpg";
 
 function Login() {
     const navigate = useNavigate();
@@ -14,17 +16,26 @@ function Login() {
     return (
         <>
             <main>
-            <div className="loginwrapper">
-            <h1>Login</h1>
-            <form onSubmit={handleLogin} className="loginform">
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <button type="submit" className="loginbutton">Log in</button>
-            </form>
+                <div className="loginwrapper">
+                    <h1>Login</h1>
+                    <form onSubmit={handleLogin} className="loginform" style={{
+                        backgroundImage: `url(${clouds})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center"
+                    }}>
+                        <input type="email" placeholder="Email"/>
+                        <input type="password" placeholder="Password"/>
+                        <button type="submit" className="loginbutton">Log in</button>
+                    </form>
 
-            <p className="register">
-                No account yet? <Link to="/register">Register here</Link>
-            </p>
+                    <p className="register"
+                       style={{
+                           backgroundImage: `url(${whitesatin})`,
+                           backgroundSize: "cover",
+                           backgroundPosition: "center"
+                       }}>
+                        No account yet? <Link to="/register">Register here</Link>
+                    </p>
                 </div>
             </main>
         </>

@@ -1,6 +1,8 @@
 import './Cocktailoftheday.css';
 import axios from 'axios';
 import React, {useState} from "react";
+import clouds from '../../assets/clouds.jpg';
+import whitesatin from '../../assets/whitesatin.jpg';
 
 function Cocktailoftheday() {
     const [cocktail, setCocktail] = useState(null);
@@ -19,11 +21,20 @@ function Cocktailoftheday() {
     return (
         <span className="cocktailofthedaywrapper">
             {!clicked && (
-            <button onClick={getRandomCocktail} className="cocktailofthedaybutton">Get the cocktail of the day!</button>
+            <button onClick={getRandomCocktail} className="cocktailofthedaybutton"
+                    style={{
+                backgroundImage: `url(${clouds})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center"}}
+            >Get the cocktail of the day!</button>
             )}
 
             {cocktail && (
-                <article className="cocktailcard">
+                <article className="cocktailcard"
+                         style={{
+                    backgroundImage: `url(${whitesatin})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center"}}>
                     <h2>{cocktail.strDrink}</h2>
                     <img src={cocktail.strDrinkThumb} alt={cocktail.strDrink} className="cocktailofthedayimage"/>
                     <p><strong>Ingredients: </strong></p>

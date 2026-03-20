@@ -8,7 +8,7 @@ function Home() {
     return (
         <>
             <main className="homepagewrapper">
-                <h1 className="titlepage">Sacha's Cocktail App</h1>
+                <h1 className="titlepage">World of Cocktails</h1>
                 <img src={homepage} alt="Cocktail" className="cocktailhomepage"/>
             </main>
         </>

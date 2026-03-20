@@ -9,12 +9,11 @@
 }
 
 .navigationlist {
-    border: 1px solid hotpink;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     list-style: none;
-    margin: 10px 0;
+    margin: 20px 0 30px 0;
 }
 
 .navigationitems {
