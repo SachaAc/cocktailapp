@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 import whitesatin from "../../assets/whitesatin.jpg";
 import favoriteRed from "../../assets/favorite-red.png";
-
-// ⭐ Import FavoritesContext
 import { FavoritesContext } from "../../context/FavoritesContext";
 
 function Favorites() {
-    // ⭐ Haal favorieten en functies uit context
     const { favorites, toggleFavorite } = useContext(FavoritesContext);
 
     return (
@@ -33,7 +30,6 @@ function Favorites() {
                             className="cocktailsearchimage"
                         />
 
-                        {/* ⭐ Verwijder-knop (altijd rood hartje) */}
                         <img
                             className="favorite"
                             src={favoriteRed}
