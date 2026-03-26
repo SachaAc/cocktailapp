@@ -25,6 +25,7 @@
 .cocktailofthedaybutton {
     width: 40vw;
     margin-top: 100px;
+    margin-bottom: 20px;
     padding: 20px 50px;
     font-size: 2rem;
     font-family: "Pacifico", cursive;
@@ -34,4 +35,8 @@
 
 .cocktailinfo {
     margin-bottom: 10px;
+}
+
+.favorite {
+    width: 5vw;
 }

@@ -10,14 +10,16 @@ import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
 import Discover from "./Pages/Discover/Discover.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
+import { FavoritesProvider } from "./context/FavoritesContext";
 
 
 function App() {
-    const isLoggedIn = false;
+    const isLoggedIn = true;
 
     return (
         <>
             <Navigation />
+            <FavoritesProvider>
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
@@ -26,7 +28,7 @@ function App() {
                 <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/"/>}/>
                 <Route path="/register" element={<Register/>}/>
             </Routes>
-            {/* Eventuele footer ... */}
+                </FavoritesProvider>
             </>
     )
 }

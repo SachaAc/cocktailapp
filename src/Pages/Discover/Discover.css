@@ -51,3 +51,7 @@ input,
 select {
     margin-left: 2px;
 }
+
+.favorite {
+    width: 2vw;
+}
