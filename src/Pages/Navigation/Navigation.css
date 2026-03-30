@@ -1,0 +1,21 @@
+.active-menu-link {
+    border-bottom: 1px solid black;
+    text-decoration: none;
+}
+
+.default-menu-link {
+    border-bottom: none;
+    text-decoration: none;
+}
+
+.navigationlist {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    list-style: none;
+    margin: 20px 0 30px 0;
+}
+
+.navigationitems {
+    padding: 0 15px;
+}

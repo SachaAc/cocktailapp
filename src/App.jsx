@@ -1,69 +1,38 @@
 import './App.css';
-import worldmap from "./assets/world_map.png";
 import axios from "axios";
 import {useState} from "react";
-import Searcher from "./searcher.jsx";
+import {Routes, Route, Navigate} from 'react-router-dom';
+
+import Navigation from "./Pages/Navigation/Navigation.jsx";
+import Home from "./Pages/Home/Home.jsx";
+import Login from "./Pages/Login/Login.jsx";
+import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
+import Discover from "./Pages/Discover/Discover.jsx";
+import Favorites from "./Pages/Favorites/Favorites.jsx";
+import Register from "./Pages/Register/Register.jsx";
+import {FavoritesProvider} from "./context/FavoritesContext";
+import Details from "./Pages/Details/Details.jsx";
 
 
 function App() {
-    const [country, setCountry] = useState([]);
-    const [error, toggleError] = useState(false);
-    const [showButton, setShowButton] = useState(true);
+    const isLoggedIn = true;
 
-    async function allCountries() {
-        try {
-            toggleError(false);
-            const response = await axios.get("https://restcountries.com/v3.1/all?fields=name,population,flags,cca3");
-            console.log(response.data);
-            setCountry(response.data);
-            setShowButton(false);
-        } catch (e) {
-            console.error(e);
-            toggleError(true);
-        }
-    }
-
-    function getRegionColor(region) {
-        switch (region) {
-            case "Africa":
-                return "blue";
-            case "Americas":
-                return "green";
-            case "Asia":
-                return "red";
-            case "Europe":
-                return "yellow";
-            case "Oceania":
-                return "purple";
-            default:
-                return "gray";
-        }
-    }
-
-    return (<>
-        <div className="header">
-            <img className="worldmap" src={worldmap}/>
-            <h1>World Regions</h1>
-            {showButton && (
-                <button onClick={allCountries}> Load countries </button>)}
-            {error && <p>Er is iets misgegaan</p>}
-            <ul>
-                {[...country]
-                    .sort((a, b) => a.population - b.population)
-                    .map((item) => (
-                        <li>
-                            <img width="40" src={item.flags.png}/>
-                            <span style={{color: getRegionColor(item.region)}}>
-          {item.name.common}
-        </span>
-                            <p>Has a population of {item.population} people</p>
-                        </li>
-                    ))}
-            </ul>
-        </div>
-
-        <Searcher />
-    </>);
+    return (
+        <>
+            <Navigation/>
+            <FavoritesProvider>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
+                    <Route path="/discover" element={<Discover/>}/>
+                    <Route path="/cocktail/:id" element={<Details/>}/>
+                    <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/login"/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                </Routes>
+            </FavoritesProvider>
+        </>
+    )
 }
 
 export default App;
