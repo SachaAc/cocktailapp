@@ -1,59 +1,103 @@
-# Cocktail Finder App
+# 🍸 Cocktail Finder App
 
-## Beschrijving
-Cocktail Finder is een React-webapplicatie waarmee gebruikers eenvoudig cocktails kunnen ontdekken en filteren. De app maakt gebruik van de [TheCocktailDB API](https://www.thecocktaildb.com/api.php) om cocktailgegevens op te halen en laat gebruikers zoeken op naam, ingredient, alcohol-gehalte en categorie.
-
-De app bevat functionaliteiten zoals registratie en login (voor toekomstige uitbreidingen) en een resetknop om alle filters te wissen.
-
----
-
-## Functionaliteiten
-
-1. **Zoeken op naam**  
-   Als gebruiker wil ik de naam van een cocktail kunnen invoeren, zodat ik gerichte resultaten krijg.
-
-2. **Filter op ingredient**  
-   Als gebruiker wil ik cocktails kunnen filteren op basis van een ingredient, zodat ik recepten kan vinden met ingrediënten die ik in huis heb.
-
-3. **Filter op alcohol**  
-   Als gebruiker wil ik cocktails kunnen filteren op alcoholisch of non-alcoholisch, zodat ik de drank kan kiezen die bij mijn voorkeur past.
-
-4. **Filter op categorie**  
-   Als gebruiker wil ik cocktails kunnen filteren op categorie (bijv. Cocktail, Shot, Shake), zodat ik gericht kan zoeken naar een bepaald type drankje.
-
-5. **Reset knop**  
-   Als gebruiker wil ik alle filters en zoekresultaten kunnen wissen, zodat ik opnieuw kan beginnen met een nieuwe zoekopdracht.
+## 📚 Inhoudsopgave
+1. Inleiding
+2. Screenshot
+3. Technologieën
+4. Installatie
+5. Configuratie
+6. Inloggen
+7. Gebruik
+8. Beschikbare npm commando’s
 
 ---
 
-## Technische specificaties
+## 📖 1. Inleiding
 
-- **Frontend**: React
-- **HTTP client**: Axios
-- **Data bron**: TheCocktailDB API
-- **Filters**: Naam, Ingredient, Alcohol, Categorie
-- **Extra functionaliteit**: Reset knop, loading state, overzichtelijke grid layout
+De Cocktail Finder App is een webapplicatie waarmee gebruikers cocktails kunnen zoeken en bekijken. De applicatie maakt gebruik van een externe API om cocktailgegevens op te halen.
+
+### Belangrijkste functionaliteiten:
+- Zoeken van cocktails op naam
+- Filteren op ingrediënt
+- Registreren en inloggen van gebruikers
+- Bekijken van cocktail detailpagina’s (recept, ingrediënten, etc.)
+- Resetten van filters
 
 ---
 
-## Installatie
+## 📸 2. Screenshot
 
-1. Clone de repository:
+*(Voeg hier een screenshot toe van je applicatie, bijvoorbeeld de homepagina)*
 
-[//]: # (```bash)
+![Screenshot](./screenshot.png)
 
-[//]: # (git clone <repo-url>)
+---
 
-[//]: # (cd cocktail-finder)
+## 🛠️ 3. Technologieën
 
-[//]: # (npm install)
+Deze applicatie is gebouwd met de volgende technieken:
 
-[//]: # (npm start)
+- React (frontend framework)
+- Vite (build tool en development server)
+- Axios (voor HTTP requests)
+- CSS (voor styling)
+- TheCocktailDB API (externe data bron)
 
-[//]: # ()
-[//]: # (De applicatie wordt nu geopend op http://localhost:???.)
+---
 
-Gebruik
-Voer een naam in het zoekveld in of kies een ingredient uit de dropdown.
-Klik op Search om de cocktails te laden.
-Klik op Reset om alle filters te wissen.
+## ⚙️ 4. Installatie
+
+Volg onderstaande stappen om het project lokaal te draaien:
+
+### 1. Clone de repository
+git clone <repo-url>
+### 2. Ga naar de projectmap
+cd cocktail-finder
+### 3. Installeer dependencies
+npm install
+### 4. Start de applicatie
+npm run dev
+De applicatie draait nu op:
+http://localhost:5173
+
+---
+
+## 🔑 5. Configuratie
+De applicatie maakt gebruik van een externe API. Hiervoor is een .env bestand aanwezig.
+.env bestand
+VITE_API_URL=https://www.thecocktaildb.com/api/json/v1/1
+⚠️ Let op:
+Dit bestand is al aanwezig in het project
+Je hoeft zelf geen API key aan te maken
+
+---
+
+## 👤 6. Inloggen
+Je kunt inloggen met de volgende testgegevens:
+E-mail: test@test.nl
+Wachtwoord: 123456
+(Nog aanpassen)
+
+---
+
+## 🧑‍💻 7. Gebruik
+Open de applicatie in de browser
+Voer een cocktailnaam in of kies een ingrediënt
+Klik op Search
+Bekijk de resultaten
+Klik op een cocktail voor meer details
+Gebruik Reset om opnieuw te zoeken
+
+---
+
+## 📦 8. Beschikbare npm commando’s
+Commando	Beschrijving
+npm run dev	Start de development server
+npm run build	Maakt een productie build van de applicatie
+npm run preview	Preview van de productie build lokaal
+npm install	Installeert alle dependencies
+
+---
+
+📄 Opmerking
+Dit project is ontwikkeld voor studie-doeleinden.
