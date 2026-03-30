@@ -17,7 +17,6 @@ function Register() {
         <>
             <main>
                 <div className="registerwrapper">
-                    <h1>Register</h1>
                     <form onSubmit={handleRegister} className="registerform"
                           style={{
                               backgroundImage: `url(${clouds})`,

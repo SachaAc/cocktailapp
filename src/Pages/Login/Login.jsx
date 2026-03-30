@@ -17,7 +17,6 @@ function Login() {
         <>
             <main>
                 <div className="loginwrapper">
-                    <h1>Login</h1>
                     <form onSubmit={handleLogin} className="loginform" style={{
                         backgroundImage: `url(${clouds})`,
                         backgroundSize: "cover",
