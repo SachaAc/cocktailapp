@@ -1,5 +1,4 @@
 import './Home.css';
-import axios from 'axios';
 import homepage from '../../assets/homepage.jpg';
 
 function Home() {

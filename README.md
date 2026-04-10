@@ -72,9 +72,8 @@ Je hoeft zelf geen API key aan te maken
 
 ## 👤 6. Inloggen
 Je kunt inloggen met de volgende testgegevens:
-E-mail: test@test.nl
-Wachtwoord: 123456
-(Nog aanpassen)
+Email: user@novi.nl,
+Password: user123,
 
 ---
 

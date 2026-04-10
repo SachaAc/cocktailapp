@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "axios";
 
 export const addFavorite = async (cocktail) => {
     return await axios.post("/favorites", cocktail);

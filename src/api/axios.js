@@ -1,21 +1,19 @@
 import axios from "axios";
 
-const instance = axios.create({
+const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
-        "X-Api-Key": import.meta.env.VITE_API_KEY,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "novi-education-project-id": import.meta.env.VITE_PROJECT_ID,
     }
 });
 
-instance.interceptors.request.use((config) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user?.accessToken) {
-        config.headers["Authorization"] = `Bearer ${user.accessToken}`;
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
 });
 
-export default instance;
+export default api;
