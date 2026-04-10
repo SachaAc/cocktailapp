@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import React, { useState } from 'react';
 
 function Login() {
-    const { login } = useAuth();
+    const { user, login, logout } = useAuth();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,37 +22,63 @@ function Login() {
         <>
             <main>
                 <div className="loginwrapper">
-                    <form onSubmit={handleSubmit} className="loginform" style={{
-                        backgroundImage: `url(${clouds})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center"
-                    }}>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                    {/* LOGIN FORM ALLEEN TONEN ALS JE NIET INGELOGD BENT */}
+                    {!user && (
+                        <>
+                            <form onSubmit={handleSubmit} className="loginform" style={{
+                                backgroundImage: `url(${clouds})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center"
+                            }}>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
 
-                        <button type="submit" className="loginbutton">Log in</button>
-                    </form>
+                                <button type="submit" className="loginbutton">Log in</button>
+                            </form>
 
-                    <p className="register"
-                       style={{
-                           backgroundImage: `url(${whitesatin})`,
-                           backgroundSize: "cover",
-                           backgroundPosition: "center"
-                       }}>
-                        No account yet? <Link to="/register">Register here</Link>
-                    </p>
+                            <p className="register"
+                               style={{
+                                   backgroundImage: `url(${whitesatin})`,
+                                   backgroundSize: "cover",
+                                   backgroundPosition: "center"
+                               }}>
+                                No account yet? <Link to="/register">Register here</Link>
+                            </p>
+
+                            {/* TEKST ALS JE UITGELOGD BENT */}
+                            <p style={{ textAlign: "center", marginTop: "20px" }}>
+                                Je bent uitgelogd.
+                            </p>
+                        </>
+                    )}
+
+                    {!user && (
+                        <p style={{ textAlign: "center", marginTop: "20px" }}>
+                            Je bent uitgelogd.
+                        </p>
+                    )}
+
+                    {user && (
+                        <div style={{ textAlign: "center", marginTop: "20px" }}>
+                            <button onClick={logout} className="loginbutton">
+                                Log uit
+                            </button>
+                        </div>
+                    )}
+
+                    )}
                 </div>
             </main>
         </>
     );
 }
 
-export default Login
+export default Login;
