@@ -1,29 +1,43 @@
 import {useNavigate, Link} from "react-router-dom";
 import './Login.css';
-import React from 'react';
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
+import { useAuth } from '../../context/AuthContext.jsx';
+import React, { useState } from 'react';
 
 function Login() {
+    const { login } = useAuth();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function handleLogin(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // login logica...
-        navigate("/"); // stuur naar home
-    }
+        await login(email, password);
+        navigate("/favorites");
+    };
 
     return (
         <>
             <main>
                 <div className="loginwrapper">
-                    <form onSubmit={handleLogin} className="loginform" style={{
+                    <form onSubmit={handleSubmit} className="loginform" style={{
                         backgroundImage: `url(${clouds})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center"
                     }}>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+
                         <button type="submit" className="loginbutton">Log in</button>
                     </form>
 
