@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
@@ -5,7 +7,6 @@ const api = axios.create({
         "novi-education-project-id": import.meta.env.VITE_PROJECT_ID,
     }
 });
-
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
