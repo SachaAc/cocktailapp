@@ -27,8 +27,6 @@ De Cocktail Finder App is een webapplicatie waarmee gebruikers cocktails kunnen 
 
 ## 📸 2. Screenshot
 
-*(Voeg hier een screenshot toe van je applicatie, bijvoorbeeld de homepagina)*
-
 ![Screenshot](./screenshot.png)
 
 ---
