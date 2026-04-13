@@ -22,7 +22,6 @@ function Login() {
         <>
             <main>
                 <div className="loginwrapper">
-                    {/* LOGIN FORM ALLEEN TONEN ALS JE NIET INGELOGD BENT */}
                     {!user && (
                         <>
                             <form onSubmit={handleSubmit} className="loginform" style={{
@@ -53,27 +52,27 @@ function Login() {
                                 No account yet? <Link to="/register">Register here</Link>
                             </p>
 
-                            {/* TEKST ALS JE UITGELOGD BENT */}
-                            <p style={{ textAlign: "center", marginTop: "20px" }}>
-                                Je bent uitgelogd.
-                            </p>
                         </>
                     )}
 
                     {!user && (
-                        <p style={{ textAlign: "center", marginTop: "20px" }}>
+                        <p>
                             Je bent uitgelogd.
                         </p>
                     )}
 
                     {user && (
-                        <div style={{ textAlign: "center", marginTop: "20px" }}>
-                            <button onClick={logout} className="loginbutton">
-                                Log uit
-                            </button>
-                        </div>
-                    )}
+                        <>
+                            <p className="logged-in-message">
+                                Je bent ingelogd!
+                            </p>
 
+                            <div>
+                                <button onClick={logout} className="loginbutton">
+                                    Log uit
+                                </button>
+                            </div>
+                        </>
                     )}
                 </div>
             </main>

@@ -3,7 +3,7 @@ import './Register.css';
 import React, { useState } from 'react';
 import whitesatin from "../../assets/whitesatin.jpg";
 import clouds from "../../assets/clouds.jpg";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Register() {
     const navigate = useNavigate();

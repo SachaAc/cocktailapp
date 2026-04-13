@@ -12,7 +12,6 @@ function CocktailSearch() {
     const [cocktails, setCocktails] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [ingredient, setIngredient] = useState("");
-    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
