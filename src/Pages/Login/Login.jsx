@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 
 function Login() {
     const { user, login, logout } = useAuth();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -31,11 +30,13 @@ function Login() {
                             }}>
                                 <input
                                     type="email"
+                                    value={email}
                                     placeholder="Email"
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <input
                                     type="password"
+                                    value={password}
                                     placeholder="Password"
                                     onChange={(e) => setPassword(e.target.value)}
                                 />

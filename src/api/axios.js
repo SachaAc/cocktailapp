@@ -5,7 +5,7 @@ const api = axios.create({
     headers: {
         "Content-Type": "application/json",
         "novi-education-project-id": import.meta.env.VITE_PROJECT_ID,
-    }
+    },
 });
 
 api.interceptors.request.use((config) => {

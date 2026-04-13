@@ -5,49 +5,48 @@ export const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
     const [favorites, setFavorites] = useState([]);
-    const { user } = useAuth();
+    const { auth } = useAuth();
 
-    // Laad favorites alleen als user is ingelogd
+    // Load favorites per user
     useEffect(() => {
-        if (!user) {
+        if (!auth.user) {
             setFavorites([]);
             return;
         }
 
-        const saved = localStorage.getItem(`favorites_${user.id}`);
+        const saved = localStorage.getItem(`favorites_${auth.user.id}`);
         if (saved) {
-            try {
-                setFavorites(JSON.parse(saved));
-            } catch {
-                setFavorites([]);
-            }
+            setFavorites(JSON.parse(saved));
         }
-    }, [user]);
+    }, [auth.user]);
 
-    // Sla favorites op per user
+    // Save favorites per user
     useEffect(() => {
-        if (user) {
-            localStorage.setItem(`favorites_${user.id}`, JSON.stringify(favorites));
+        if (auth.user) {
+            localStorage.setItem(
+                `favorites_${auth.user.id}`,
+                JSON.stringify(favorites)
+            );
         }
-    }, [favorites, user]);
+    }, [favorites, auth.user]);
 
     const toggleFavorite = (drink) => {
-        if (!user) {
+        if (!auth.isAuth) {
             alert("Je moet ingelogd zijn om favorieten op te slaan.");
             return;
         }
 
-        const exists = favorites.some(fav => fav.idDrink === drink.idDrink);
+        const exists = favorites.some((fav) => fav.idDrink === drink.idDrink);
 
         if (exists) {
-            setFavorites(favorites.filter(fav => fav.idDrink !== drink.idDrink));
+            setFavorites(favorites.filter((fav) => fav.idDrink !== drink.idDrink));
         } else {
             setFavorites([...favorites, drink]);
         }
     };
 
     const isFavorite = (id) => {
-        return favorites.some(fav => fav.idDrink === id);
+        return favorites.some((fav) => fav.idDrink === id);
     };
 
     return (

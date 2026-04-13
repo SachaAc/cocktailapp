@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import whitesatin from "../../assets/whitesatin.jpg";
 import favorite from "../../assets/favorite.png";
 import favoriteRed from "../../assets/favorite-red.png";
-import { FavoritesContext } from "../../context/FavoritesContext";
+import { FavoritesContext } from "../../context/FavoritesContext.jsx";
 
 function CocktailDetails() {
     const { id } = useParams();

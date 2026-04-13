@@ -1,19 +1,18 @@
-import api from "../api/axios";
+import axios from "axios";
 
-export const addFavorite = async (cocktail, userId) => {
-    return await api.post("/api/favorites", {
-        idDrink: cocktail.idDrink,
-        strDrink: cocktail.strDrink,
-        strDrinkThumb: cocktail.strDrinkThumb,
-        userId: userId
-    });
-};
+const BASE = "https://www.thecocktaildb.com/api/json/v1/1";
 
-export const getFavorites = async () => {
-    const res = await api.get("/api/favorites");
-    return res.data;
-};
+export async function getCategories() {
+    const res = await axios.get(`${BASE}/list.php?c=list`);
+    return res.data.drinks;
+}
 
-export const deleteFavorite = async (id) => {
-    return await api.delete(`/api/favorites/${id}`);
-};
+export async function getByCategory(category) {
+    const res = await axios.get(`${BASE}/filter.php?c=${category}`);
+    return res.data.drinks;
+}
+
+export async function getCocktail(id) {
+    const res = await axios.get(`${BASE}/lookup.php?i=${id}`);
+    return res.data.drinks[0];
+}

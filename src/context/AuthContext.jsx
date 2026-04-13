@@ -13,9 +13,7 @@ export function AuthProvider({ children }) {
         status: "pending",
     });
 
-    // -----------------------------
-    // 1. Persist on refresh
-    // -----------------------------
+    // Persist on refresh
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -30,8 +28,6 @@ export function AuthProvider({ children }) {
             }
 
             try {
-                // Token decoderen is niet nodig bij NOVI API
-                // Je kunt direct /api/me aanroepen
                 const res = await api.get("/api/me");
 
                 setAuth({
@@ -53,31 +49,18 @@ export function AuthProvider({ children }) {
         fetchUser();
     }, []);
 
-    // -----------------------------
-    // 2. Registreren
-    // -----------------------------
     async function register(email, password) {
         try {
-            await api.post("/api/register", {
-                email,
-                password,
-            });
-
+            await api.post("/api/register", { email, password });
             navigate("/login");
         } catch (e) {
             console.error("Registreren mislukt:", e);
         }
     }
 
-    // -----------------------------
-    // 3. Inloggen
-    // -----------------------------
     async function login(email, password) {
         try {
-            const res = await api.post("/api/login", {
-                email,
-                password,
-            });
+            const res = await api.post("/api/login", { email, password });
 
             localStorage.setItem("token", res.data.accessToken);
 
@@ -93,9 +76,6 @@ export function AuthProvider({ children }) {
         }
     }
 
-    // -----------------------------
-    // 4. Uitloggen
-    // -----------------------------
     function logout() {
         localStorage.removeItem("token");
 
@@ -108,9 +88,6 @@ export function AuthProvider({ children }) {
         navigate("/");
     }
 
-    // -----------------------------
-    // Loading state
-    // -----------------------------
     if (auth.status === "pending") {
         return <p>Loading...</p>;
     }

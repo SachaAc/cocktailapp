@@ -8,12 +8,12 @@ import { useAuth } from "../../context/AuthContext.jsx";
 function Register() {
     const navigate = useNavigate();
     const { register } = useAuth();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     async function handleRegister(e) {
         e.preventDefault();
+
 
         try {
             await register(email, password);
