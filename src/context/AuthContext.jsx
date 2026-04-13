@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axios.js";
 
 const AuthContext = createContext();
 
@@ -14,11 +14,11 @@ export function AuthProvider({ children }) {
     }, []);
 
     const register = async (email, password) => {
-        await axios.post("/api/register", { email, password });
+        await api.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/register", { email, password });
     };
 
     const login = async (email, password) => {
-        const res = await axios.post("/api/login", { email, password });
+        const res = await api.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/login", { email, password });
 
         localStorage.setItem("token", res.data.accessToken);
 

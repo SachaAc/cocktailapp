@@ -5,7 +5,6 @@ export const FavoritesContext = createContext();
 export function FavoritesProvider({ children }) {
     const [favorites, setFavorites] = useState([]);
 
-    // Load from localStorage
     useEffect(() => {
         const saved = localStorage.getItem("favorites");
         if (saved) {
@@ -17,7 +16,6 @@ export function FavoritesProvider({ children }) {
         }
     }, []);
 
-    // Save to localStorage
     useEffect(() => {
         localStorage.setItem("favorites", JSON.stringify(favorites));
     }, [favorites]);
