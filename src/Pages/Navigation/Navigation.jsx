@@ -1,10 +1,8 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import './Navigation.css';
-import { useAuth } from "../../context/AuthContext.jsx";
 
 function Navigation() {
-    const { auth, logout } = useAuth();
     const getClass = ({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link';
 
     return (
@@ -31,7 +29,6 @@ function Navigation() {
                         Discover Cocktails
                     </NavLink>
                 </li>
-                {auth.isAuth ? (
                     <>
                         <li className="navigationitems">
                             <NavLink
@@ -48,8 +45,6 @@ function Navigation() {
                     </NavLink>
                 </li>
                     </>
-                    )
-                    : (
                         <li className="navigationitems">
                             <NavLink
                                 to="/login"

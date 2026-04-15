@@ -5,7 +5,6 @@ import clouds from '../../assets/clouds.jpg';
 import whitesatin from '../../assets/whitesatin.jpg';
 import favorite from "../../assets/favorite.png";
 import favoriteRed from "../../assets/favorite-red.png";
-import { FavoritesContext } from "../../context/FavoritesContext.jsx";
 
 function Cocktailoftheday() {
     const [cocktail, setCocktail] = useState(null);
@@ -87,7 +86,8 @@ function Cocktailoftheday() {
                     >
                         Another cocktail please!
                     </button>
-                </article>
+                </
+                article>
             )}
         </span>
     );

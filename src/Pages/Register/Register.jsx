@@ -1,48 +1,36 @@
 import { useNavigate, Link } from "react-router-dom";
-import './Register.css';
-import React, { useState } from 'react';
-import whitesatin from "../../assets/whitesatin.jpg";
-import clouds from "../../assets/clouds.jpg";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
-import axios from "axios";
+import clouds from "../../assets/clouds.jpg";
+import whitesatin from "../../assets/whitesatin.jpg";
 
 function Register() {
     const navigate = useNavigate();
     const { register } = useAuth();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, toggleError] = useState(false);
-    const [loading, toggleLoading] = useState(false);
+    const [username, setUsername] = useState("");
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     async function handleRegister(e) {
         e.preventDefault();
-        toggleError(false);
-        toggleLoading(true);
+        setError(false);
+        setLoading(true);
 
         try {
-            await axios.post(
-                'https://novi-backend-api-wgsgz.ondigitalocean.app/login',
-                {
-                    email,
-                    password,
-                },
-                {
-                    headers: {
-                        'novi-education-project-id': '3cc8d4cf-96a8-4a9b-b5f8-6e4e00cc1507'
-                    }
-                }
-            );
-
-            navigate('/favorites');
+            await register(email, password, username);
+            navigate("/login");
         } catch (e) {
             console.error(e);
-            toggleError(true);
+            setError(true);
         }
-        toggleLoading(false);
+
+        setLoading(false);
     }
 
     return (
-        <>
         <main>
             <div className="registerwrapper">
                 <form
@@ -51,21 +39,36 @@ function Register() {
                     style={{
                         backgroundImage: `url(${clouds})`,
                         backgroundSize: "cover",
-                        backgroundPosition: "center"
+                        backgroundPosition: "center",
                     }}
                 >
                     <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+
+                    <input
                         type="email"
                         placeholder="Email"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <input
                         type="password"
                         placeholder="Password"
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {error && <p className="error">Dit account bestaat al. Probeer een ander emailadres.</p>}
+
+                    {error && (
+                        <p className="error">
+                            Dit account bestaat al. Probeer een ander emailadres.
+                        </p>
+                    )}
+
                     <button type="submit" className="registerbutton" disabled={loading}>
                         Register
                     </button>
@@ -76,14 +79,13 @@ function Register() {
                     style={{
                         backgroundImage: `url(${whitesatin})`,
                         backgroundSize: "cover",
-                        backgroundPosition: "center"
+                        backgroundPosition: "center",
                     }}
                 >
                     Already have an account? <Link to="/login">Log in here</Link>
                 </p>
             </div>
         </main>
-        </>
     );
 }
 
