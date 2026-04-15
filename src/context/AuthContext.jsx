@@ -1,10 +1,11 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import {createContext, useState, useEffect, useContext} from "react";
+import {useNavigate} from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
+import axios from "axios";
 
 export const AuthContext = createContext({});
 
-export function AuthProvider({ children }) {
+export function AuthProvider({children}) {
     const navigate = useNavigate();
 
     const [auth, setAuth] = useState({
@@ -13,115 +14,86 @@ export function AuthProvider({ children }) {
         status: "pending",
     });
 
-    // -----------------------------
-    // 1. Persist on refresh
-    // -----------------------------
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        async function fetchUser() {
-            if (!token) {
-                setAuth({
-                    isAuth: false,
-                    user: null,
-                    status: "done",
-                });
-                return;
-            }
-
-            try {
-                // Token decoderen is niet nodig bij NOVI API
-                // Je kunt direct /api/me aanroepen
-                const res = await api.get("/api/me");
-
-                setAuth({
-                    isAuth: true,
-                    user: res.data,
-                    status: "done",
-                });
-            } catch (e) {
-                console.error("Kon user niet ophalen:", e);
-
-                setAuth({
-                    isAuth: false,
-                    user: null,
-                    status: "done",
-                });
-            }
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            void fetchUserData(decoded.sub, token);
+        } else {
+            toggleIsAuth({
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
         }
-
-        fetchUser();
     }, []);
 
-    // -----------------------------
-    // 2. Registreren
-    // -----------------------------
-    async function register(email, password) {
-        try {
-            await api.post("/api/register", {
-                email,
-                password,
-            });
-
-            navigate("/login");
-        } catch (e) {
-            console.error("Registreren mislukt:", e);
-        }
+    function login(JWT) {
+        localStorage.setItem('token', JWT);
+        const decoded = jwtDecode(JWT);
+        void fetchUserData(decoded.sub, JWT, '/profile');
+        navigate('/profile');
     }
 
-    // -----------------------------
-    // 3. Inloggen
-    // -----------------------------
-    async function login(email, password) {
-        try {
-            const res = await api.post("/api/login", {
-                email,
-                password,
-            });
 
-            localStorage.setItem("token", res.data.accessToken);
-
-            setAuth({
-                isAuth: true,
-                user: res.data.user,
-                status: "done",
-            });
-
-            navigate("/profile");
-        } catch (e) {
-            console.error("Login mislukt:", e);
-        }
-    }
-
-    // -----------------------------
-    // 4. Uitloggen
-    // -----------------------------
     function logout() {
-        localStorage.removeItem("token");
-
-        setAuth({
+        localStorage.clear();
+        toggleIsAuth({
             isAuth: false,
             user: null,
-            status: "done",
+            status: 'done',
         });
 
-        navigate("/");
+        console.log('Gebruiker is uitgelogd!');
+        navigate('/');
     }
 
-    // -----------------------------
-    // Loading state
-    // -----------------------------
-    if (auth.status === "pending") {
-        return <p>Loading...</p>;
+    async function fetchUserData(id, token, redirectUrl) {
+        try {
+            const result = await axios.get(`http://localhost:5173/2/users/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            toggleIsAuth({
+                ...isAuth,
+                isAuth: true,
+                user: {
+                    username: result.data.username,
+                    email: result.data.email,
+                    id: result.data.id,
+                },
+                status: 'done',
+            });
+
+            if (redirectUrl) {
+                navigate(redirectUrl);
+            }
+
+        } catch (e) {
+            console.error(e);
+
+            toggleIsAuth({
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
+        }
     }
+
+    const contextData = {
+        ...isAuth,
+        login,
+        logout
+    };
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout, register }}>
-            {children}
+        <AuthContext.Provider value={contextData}>
+            {isAuth.status === 'done' ? children : <p>Loading...</p>}
         </AuthContext.Provider>
     );
 }
 
-export function useAuth() {
-    return useContext(AuthContext);
-}
+export default AuthContextProvider;

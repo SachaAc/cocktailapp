@@ -4,26 +4,45 @@ import React, { useState } from 'react';
 import whitesatin from "../../assets/whitesatin.jpg";
 import clouds from "../../assets/clouds.jpg";
 import { useAuth } from "../../context/AuthContext.jsx";
+import axios from "axios";
 
 function Register() {
     const navigate = useNavigate();
     const { register } = useAuth();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     async function handleRegister(e) {
         e.preventDefault();
+        toggleError(false);
+        toggleLoading(true);
 
         try {
-            await register(email, password);
-            navigate("/login");
-        } catch (err) {
-            console.error("Registratie mislukt:", err);
+            await axios.post(
+                'https://novi-backend-api-wgsgz.ondigitalocean.app/login',
+                {
+                    email,
+                    password,
+                },
+                {
+                    headers: {
+                        'novi-education-project-id': '3cc8d4cf-96a8-4a9b-b5f8-6e4e00cc1507'
+                    }
+                }
+            );
+
+            navigate('/favorites');
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (
+        <>
         <main>
             <div className="registerwrapper">
                 <form
@@ -46,8 +65,8 @@ function Register() {
                         placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-
-                    <button type="submit" className="registerbutton">
+                    {error && <p className="error">Dit account bestaat al. Probeer een ander emailadres.</p>}
+                    <button type="submit" className="registerbutton" disabled={loading}>
                         Register
                     </button>
                 </form>
@@ -64,6 +83,7 @@ function Register() {
                 </p>
             </div>
         </main>
+        </>
     );
 }
 

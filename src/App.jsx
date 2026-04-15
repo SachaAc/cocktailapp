@@ -7,8 +7,8 @@ import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
 import Discover from "./Pages/Discover/Discover.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
-import {FavoritesProvider} from "./context/FavoritesContext";
 import Details from "./Pages/Details/Details.jsx";
+import Profile from "./Pages/Profile/Profile.jsx";
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
                     <Route path="/discover" element={<Discover/>}/>
                     <Route path="/cocktail/:id" element={<Details/>}/>
                     <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/login"/>}/>
+                    <Route path="/profile" element={<Profile/>}/>
                     <Route path="/register" element={<Register/>}/>
                 </Routes>
             </FavoritesProvider>
