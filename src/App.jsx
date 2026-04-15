@@ -7,7 +7,6 @@ import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
 import Discover from "./Pages/Discover/Discover.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
-import {FavoritesProvider} from "./context/FavoritesContext";
 import Details from "./Pages/Details/Details.jsx";
 import Profile from "./Pages/Profile/Profile.jsx";
 
