@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import whitesatin from "../../assets/whitesatin.jpg";
 import favoriteRed from "../../assets/favorite-red.png";
-import { FavoritesContext } from "../../context/FavoritesContext.jsx";
 
 function Favorites() {
     const { favorites, toggleFavorite } = useContext(FavoritesContext);

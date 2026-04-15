@@ -12,23 +12,30 @@ import Profile from "./Pages/Profile/Profile.jsx";
 
 
 function App() {
-    const isLoggedIn = true;
 
     return (
         <>
             <Navigation/>
-            <FavoritesProvider>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
-                    <Route path="/discover" element={<Discover/>}/>
-                    <Route path="/cocktail/:id" element={<Details/>}/>
-                    <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/login"/>}/>
-                    <Route path="/profile" element={<Profile/>}/>
-                    <Route path="/register" element={<Register/>}/>
-                </Routes>
-            </FavoritesProvider>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
+                <Route path="/discover" element={<Discover/>}/>
+                <Route path="/cocktail/:id" element={<Details/>}/>
+                <Route
+                    path="/favorites"
+                    element={
+                        auth.isAuth ? <Favorites/> : <Navigate to="/login"/>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        auth.isAuth ? <Profile/> : <Navigate to="/login"/>
+                    }
+                />
+                <Route path="/register" element={<Register/>}/>
+            </Routes>
         </>
     )
 }

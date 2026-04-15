@@ -1,110 +1,91 @@
-import {useNavigate, Link} from "react-router-dom";
-import './Login.css';
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
-import {AuthContext} from '../../context/AuthContext.jsx';
-import React, {useContext, useState} from 'react';
-import axios from "axios";
 
 function Login() {
-    const { user, login, logout } = useContext(AuthContext);
+    const { auth, login } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
     const navigate = useNavigate();
-    const [error, toggleError] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
-        toggleError(false);
+        setError(false);
 
         try {
-            const result = await axios.post(
-                'https://novi-backend-api-wgsgz.ondigitalocean.app/login',
-                {
-                    email,
-                    password,
-                },
-                {
-                    headers: {
-                        'novi-education-project-id': '3cc8d4cf-96a8-4a9b-b5f8-6e4e00cc1507'
-                    }
-                }
-            );
-
-            console.log(result.data);
-            login(result.data.accessToken);
-
-        } catch(e) {
+            await login(email, password);
+            navigate("/profile");
+        } catch (e) {
             console.error(e);
-            toggleError(true);
+            setError(true);
         }
     }
 
     return (
-        <>
-            <main>
-                <div className="loginwrapper">
-                    {!user && (
-                        <>
-                            <form onSubmit={handleSubmit} className="loginform" style={{
+        <main>
+            <div className="loginwrapper">
+                {!auth.isAuth && (
+                    <>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="loginform"
+                            style={{
                                 backgroundImage: `url(${clouds})`,
                                 backgroundSize: "cover",
-                                backgroundPosition: "center"
-                            }}>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={email}
-                                    placeholder="Email"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={password}
-                                    placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                {error && <p className="error">Combinatie van emailadres en wachtwoord is onjuist</p>}
-                                <button type="submit" className="loginbutton">Log in</button>
-                            </form>
+                                backgroundPosition: "center",
+                            }}
+                        >
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
 
-                            <p className="register"
-                               style={{
-                                   backgroundImage: `url(${whitesatin})`,
-                                   backgroundSize: "cover",
-                                   backgroundPosition: "center"
-                               }}>
-                                No account yet? <Link to="/register">Register here</Link>
-                            </p>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                        </>
-                    )}
+                            {error && (
+                                <p className="error">
+                                    Combinatie van emailadres en wachtwoord is onjuist
+                                </p>
+                            )}
 
-                    {!user && (
-                        <p>
-                            Je bent uitgelogd.
+                            <button type="submit" className="loginbutton">
+                                Log in
+                            </button>
+                        </form>
+
+                        <p
+                            className="register"
+                            style={{
+                                backgroundImage: `url(${whitesatin})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        >
+                            No account yet? <Link to="/register">Register here</Link>
                         </p>
-                    )}
+                    </>
+                )}
 
-                    {user && (
-                        <>
-                            <p className="logged-in-message">
-                                Je bent ingelogd!
-                            </p>
-
-                            <div>
-                                <button onClick={logout} className="loginbutton">
-                                    Log uit
-                                </button>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </main>
-        </>
+                {auth.isAuth && (
+                    <>
+                        <p className="logged-in-message">Je bent ingelogd!</p>
+                        <button onClick={() => logout()} className="loginbutton">
+                            Log uit
+                        </button>
+                    </>
+                )}
+            </div>
+        </main>
     );
 }
 
