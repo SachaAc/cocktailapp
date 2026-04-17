@@ -1,7 +1,7 @@
 import './Details.css';
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import whitesatin from "../../assets/whitesatin.jpg";
 import favorite from "../../assets/favorite.png";
 import favoriteRed from "../../assets/favorite-red.png";
@@ -10,7 +10,7 @@ function CocktailDetails() {
     const { id } = useParams();
     const [cocktail, setCocktail] = useState(null);
 
-    const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
+    // const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
 
     useEffect(() => {
         async function fetchCocktail() {

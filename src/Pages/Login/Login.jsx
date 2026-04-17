@@ -79,9 +79,9 @@ function Login() {
                 {auth.isAuth && (
                     <>
                         <p className="logged-in-message">Je bent ingelogd!</p>
-                        <button onClick={() => logout()} className="loginbutton">
-                            Log uit
-                        </button>
+                        {/*<button onClick={() => logout()} className="loginbutton">*/}
+                        {/*    Log uit*/}
+                        {/*</button>*/}
                     </>
                 )}
             </div>

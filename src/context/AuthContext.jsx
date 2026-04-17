@@ -1,14 +1,9 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import axios from "axios";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({});
 
-const API_URL = "https://novi-backend-api-wgsgz.ondigitalocean.app";
-const PROJECT_ID = "3cc8d4cf-96a8-4a9b-b5f8-6e4e00cc1507";
-
-export function AuthContextProvider({ children }) {
+export function AuthProvider({ children }) {
     const navigate = useNavigate();
 
     const [auth, setAuth] = useState({
@@ -17,116 +12,32 @@ export function AuthContextProvider({ children }) {
         status: "pending",
     });
 
-    // ---------------------------
-    // REGISTER
-    // ---------------------------
-    async function register(email, password, username) {
-        try {
-            await axios.post(
-                `${API_URL}/register`,
-                { email, password, username },
-                {
-                    headers: {
-                        "novi-education-project-id": PROJECT_ID,
-                    },
-                }
-            );
-
-            navigate("/login");
-        } catch (e) {
-            console.error("Registreren mislukt:", e);
-        }
-    }
-
-    // ---------------------------
-    // LOGIN
-    // ---------------------------
-    async function login(email, password) {
-        try {
-            const res = await axios.post(
-                `${API_URL}/login`,
-                { email, password },
-                {
-                    headers: {
-                        "novi-education-project-id": PROJECT_ID,
-                    },
-                }
-            );
-
-            const token = res.data.accessToken;
-            localStorage.setItem("token", token);
-
-            const decoded = jwtDecode(token);
-            const userId = decoded.sub;
-
-            const userRes = await axios.get(`${API_URL}/users/${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "novi-education-project-id": PROJECT_ID,
-                },
-            });
-
-            setAuth({
-                isAuth: true,
-                user: userRes.data,
-                status: "done",
-            });
-
-            navigate("/profile");
-        } catch (e) {
-            console.error("Login mislukt:", e);
-        }
-    }
-
-    // ---------------------------
-    // LOGOUT
-    // ---------------------------
-    function logout() {
-        localStorage.removeItem("token");
-
-        setAuth({
-            isAuth: false,
-            user: null,
-            status: "done",
-        });
-
-        navigate("/");
-    }
-
-    // ---------------------------
-    // PERSIST ON REFRESH
-    // ---------------------------
+    // -----------------------------
+    // 5. Persist on refresh
+    // -----------------------------
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        if (!token) {
-            setAuth({
-                isAuth: false,
-                user: null,
-                status: "done",
-            });
-            return;
-        }
-
         async function fetchUser() {
-            try {
-                const decoded = jwtDecode(token);
-                const userId = decoded.sub;
-
-                const userRes = await axios.get(`${API_URL}/users/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "novi-education-project-id": PROJECT_ID,
-                    },
+            if (!token) {
+                setAuth({
+                    isAuth: false,
+                    user: null,
+                    status: "done",
                 });
+                return;
+            }
+
+            try {
+                const res = await api.get("/api/me");
 
                 setAuth({
                     isAuth: true,
-                    user: userRes.data,
+                    user: res.data,
                     status: "done",
                 });
             } catch (e) {
-                console.error("Persist mislukt:", e);
+                console.error("Kon user niet ophalen:", e);
 
                 setAuth({
                     isAuth: false,
@@ -139,7 +50,65 @@ export function AuthContextProvider({ children }) {
         fetchUser();
     }, []);
 
-    if (auth.status !== "done") {
+    // -----------------------------
+    // 2. Registreren
+    // -----------------------------
+    async function register(email, password) {
+        try {
+            await api.post("/api/register", {
+                email,
+                password,
+            });
+
+            navigate("/login");
+        } catch (e) {
+            console.error("Registreren mislukt:", e);
+        }
+    }
+
+    // -----------------------------
+    // 3. Inloggen
+    // -----------------------------
+    async function login(email, password) {
+        try {
+            const res = await api.post("/api/login", {
+                email,
+                password,
+            });
+
+            localStorage.setItem("token", res.data.accessToken);
+
+            setAuth({
+                isAuth: true,
+                user: res.data.user,
+                status: "done",
+            });
+
+            navigate("/profile");
+        } catch (e) {
+            console.error("Login mislukt:", e);
+        }
+    }
+
+    // -----------------------------
+    // 4. Uitloggen
+    // -----------------------------
+    function logout() {
+        localStorage.removeItem("token");
+
+        setAuth({
+            isAuth: false,
+            user: null,
+            status: "done",
+        });
+
+        navigate("/");
+    }
+
+    // -----------------------------
+    // Loading state
+    // -----------------------------
+    if (auth.status === "pending") {
         return <p>Loading...</p>;
     }
 
