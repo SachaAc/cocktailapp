@@ -60,12 +60,6 @@ function Login() {
                         </>
                     )}
 
-                    {!user && (
-                        <p style={{ textAlign: "center", marginTop: "20px" }}>
-                            Je bent uitgelogd.
-                        </p>
-                    )}
-
                     {user && (
                         <div style={{ textAlign: "center", marginTop: "20px" }}>
                             <button onClick={logout} className="loginbutton">
@@ -74,7 +68,6 @@ function Login() {
                         </div>
                     )}
 
-                    )}
                 </div>
             </main>
         </>
