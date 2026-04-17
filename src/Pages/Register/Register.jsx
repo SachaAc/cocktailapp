@@ -1,13 +1,20 @@
 import { useNavigate, Link } from "react-router-dom";
+<<<<<<< HEAD
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
+=======
+import './Register.css';
+import React from 'react';
+import whitesatin from "../../assets/whitesatin.jpg";
+import clouds from "../../assets/clouds.jpg";
+>>>>>>> parent of b07d46e... login details
 
 function Register() {
     const navigate = useNavigate();
-    const { register } = useAuth();
 
+<<<<<<< HEAD
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -86,7 +93,40 @@ function Register() {
                 </p>
             </div>
         </main>
+=======
+    function handleRegister(e) {
+        e.preventDefault();
+        // registratie logica...
+        navigate("/"); // stuur naar home na registreren
+    }
+
+    return (
+        <>
+            <main>
+                <div className="registerwrapper">
+                    <form onSubmit={handleRegister} className="registerform"
+                          style={{
+                              backgroundImage: `url(${clouds})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center"}}>
+                        <input type="text" placeholder="Name" />
+                        <input type="email" placeholder="Email" />
+                        <input type="password" placeholder="Password" />
+                        <input type="password" placeholder="Repeat password" />
+                        <button type="submit" className="registerbutton">Register</button>
+                    </form>
+
+                    <p className="login"                style={{
+                        backgroundImage: `url(${whitesatin})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center"}}>
+                        Already have an account? <Link to="/login">Log in here</Link>
+                    </p>
+                </div>
+            </main>
+        </>
+>>>>>>> parent of b07d46e... login details
     );
 }
 
-export default Register;
+export default Register
