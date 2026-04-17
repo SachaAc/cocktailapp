@@ -1,44 +1,124 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { createContext, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+export const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
+    const [auth, setAuth] = useState({
+        isAuth: false,
+        user: null,
+        status: "pending",
+    });
+
+    // -----------------------------
+    // 5. Persist on refresh
+    // -----------------------------
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+        const token = localStorage.getItem("token");
+
+        async function fetchUser() {
+            if (!token) {
+                setAuth({
+                    isAuth: false,
+                    user: null,
+                    status: "done",
+                });
+                return;
+            }
+
+            try {
+                const res = await api.get("/api/me");
+
+                setAuth({
+                    isAuth: true,
+                    user: res.data,
+                    status: "done",
+                });
+            } catch (e) {
+                console.error("Kon user niet ophalen:", e);
+
+                setAuth({
+                    isAuth: false,
+                    user: null,
+                    status: "done",
+                });
+            }
         }
+
+        fetchUser();
     }, []);
 
-    const register = async (email, password) => {
-        await axios.post("/api/register", { email, password });
-    };
+    // -----------------------------
+    // 2. Registreren
+    // -----------------------------
+    async function register(email, password) {
+        try {
+            await api.post("/api/register", {
+                email,
+                password,
+            });
 
-    const login = async (email, password) => {
-        const res = await axios.post("/api/login", { email, password });
+            navigate("/login");
+        } catch (e) {
+            console.error("Registreren mislukt:", e);
+        }
+    }
 
-        localStorage.setItem("token", res.data.accessToken);
+    // -----------------------------
+    // 3. Inloggen
+    // -----------------------------
+    async function login(email, password) {
+        try {
+            const res = await api.post("/api/login", {
+                email,
+                password,
+            });
 
-        setUser(res.data.user);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-    };
+            localStorage.setItem("token", res.data.accessToken);
 
+            setAuth({
+                isAuth: true,
+                user: res.data.user,
+                status: "done",
+            });
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem("user");
+            navigate("/profile");
+        } catch (e) {
+            console.error("Login mislukt:", e);
+        }
+    }
+
+    // -----------------------------
+    // 4. Uitloggen
+    // -----------------------------
+    function logout() {
         localStorage.removeItem("token");
-    };
 
+        setAuth({
+            isAuth: false,
+            user: null,
+            status: "done",
+        });
+
+        navigate("/");
+    }
+
+    // -----------------------------
+    // Loading state
+    // -----------------------------
+    if (auth.status === "pending") {
+        return <p>Loading...</p>;
+    }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ auth, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+    return useContext(AuthContext);
+}

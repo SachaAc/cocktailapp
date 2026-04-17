@@ -1,9 +1,7 @@
-import React from 'react';
 import {NavLink} from 'react-router-dom';
 import './Navigation.css';
 
 function Navigation() {
-
     const getClass = ({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link';
 
     return (
@@ -14,13 +12,6 @@ function Navigation() {
                         to="/"
                         className={getClass}>
                         Home
-                    </NavLink>
-                </li>
-                <li className="navigationitems">
-                    <NavLink
-                        to="/login"
-                        className={getClass}>
-                        Login
                     </NavLink>
                 </li>
                 <li className="navigationitems">
@@ -37,6 +28,14 @@ function Navigation() {
                         Discover Cocktails
                     </NavLink>
                 </li>
+                    <>
+                        <li className="navigationitems">
+                            <NavLink
+                                to="/profile"
+                                className={getClass}>
+                                Profile
+                            </NavLink>
+                        </li>
                 <li className="navigationitems">
                     <NavLink
                         to="/favorites"
@@ -44,6 +43,15 @@ function Navigation() {
                         Favorites
                     </NavLink>
                 </li>
+                    </>
+                        <li className="navigationitems">
+                            <NavLink
+                                to="/login"
+                                className={getClass}>
+                                Login
+                            </NavLink>
+                        </li>
+                    )
             </ul>
         </nav>
     );

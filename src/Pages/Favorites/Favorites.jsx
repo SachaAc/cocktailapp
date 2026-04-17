@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
 import whitesatin from "../../assets/whitesatin.jpg";
 import favoriteRed from "../../assets/favorite-red.png";
-import { FavoritesContext } from "../../context/FavoritesContext";
 
 function Favorites() {
-    const { favorites, toggleFavorite } = useContext(FavoritesContext);
+    // const { favorites, toggleFavorite } = useContext(FavoritesContext);
 
     return (
         <main>

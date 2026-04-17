@@ -7,27 +7,37 @@ import Cocktailoftheday from "./Pages/Cocktailoftheday/Cocktailoftheday.jsx";
 import Discover from "./Pages/Discover/Discover.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
-import {FavoritesProvider} from "./context/FavoritesContext";
 import Details from "./Pages/Details/Details.jsx";
+import Profile from "./Pages/Profile/Profile.jsx";
+import { useAuth } from "./context/AuthContext.jsx";
 
 
 function App() {
-    const isLoggedIn = true;
+    const { auth } = useAuth();
 
     return (
         <>
             <Navigation/>
-            <FavoritesProvider>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
-                    <Route path="/discover" element={<Discover/>}/>
-                    <Route path="/cocktail/:id" element={<Details/>}/>
-                    <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/login"/>}/>
-                    <Route path="/register" element={<Register/>}/>
-                </Routes>
-            </FavoritesProvider>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
+                <Route path="/discover" element={<Discover/>}/>
+                <Route path="/cocktail/:id" element={<Details/>}/>
+                <Route
+                    path="/favorites"
+                    element={
+                        auth.isAuth ? <Favorites/> : <Navigate to="/login"/>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        auth.isAuth ? <Profile/> : <Navigate to="/login"/>
+                    }
+                />
+                <Route path="/register" element={<Register/>}/>
+            </Routes>
         </>
     )
 }

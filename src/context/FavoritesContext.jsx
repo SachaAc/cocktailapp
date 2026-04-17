@@ -1,43 +1,60 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext.jsx";
 
 export const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
+    const { auth } = useContext(AuthContext);
     const [favorites, setFavorites] = useState([]);
 
-    // Load from localStorage
+    // ---------------------------
+    // LOAD FAVORITES PER USER
+    // ---------------------------
     useEffect(() => {
-        const saved = localStorage.getItem("favorites");
-        if (saved) {
-            try {
-                setFavorites(JSON.parse(saved));
-            } catch {
-                setFavorites([]);
-            }
+        if (!auth?.user) {
+            setFavorites([]);
+            return;
         }
-    }, []);
 
-    // Save to localStorage
+        const saved = localStorage.getItem(`favorites_${auth.user.id}`);
+
+        if (saved) {
+            setFavorites(JSON.parse(saved));
+        }
+    }, [auth?.user]);
+
+    // ---------------------------
+    // SAVE FAVORITES PER USER
+    // ---------------------------
     useEffect(() => {
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-    }, [favorites]);
+        if (auth?.user) {
+            localStorage.setItem(
+                `favorites_${auth.user.id}`,
+                JSON.stringify(favorites)
+            );
+        }
+    }, [favorites, auth?.user]);
 
-    const toggleFavorite = (drink) => {
-        const exists = favorites.some(fav => fav.idDrink === drink.idDrink);
+    // ---------------------------
+    // TOGGLE FAVORITE
+    // ---------------------------
+    function toggleFavorite(drink) {
+        if (!auth?.isAuth) {
+            alert("Je moet ingelogd zijn om favorieten op te slaan.");
+            return;
+        }
+
+        const exists = favorites.some((fav) => fav.idDrink === drink.idDrink);
 
         if (exists) {
-            setFavorites(favorites.filter(fav => fav.idDrink !== drink.idDrink));
+            setFavorites(favorites.filter((fav) => fav.idDrink !== drink.idDrink));
         } else {
             setFavorites([...favorites, drink]);
         }
-    };
-
-    const isFavorite = (id) => {
-        return favorites.some(fav => fav.idDrink === id);
-    };
+    }
 
     return (
-        <FavoritesContext.Provider value={{ favorites, toggleFavorite, isFavorite }}>
+        <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
             {children}
         </FavoritesContext.Provider>
     );
