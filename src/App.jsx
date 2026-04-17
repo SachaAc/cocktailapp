@@ -9,9 +9,11 @@ import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
 import Details from "./Pages/Details/Details.jsx";
 import Profile from "./Pages/Profile/Profile.jsx";
+import { useAuth } from "./context/AuthContext.jsx";
 
 
 function App() {
+    const { auth } = useAuth();
 
     return (
         <>

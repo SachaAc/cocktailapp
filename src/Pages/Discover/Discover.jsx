@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import './Discover.css';
@@ -7,13 +7,15 @@ import whitesatin from "../../assets/whitesatin.jpg";
 import favorite from "../../assets/favorite.png";
 import favoriteRed from "../../assets/favorite-red.png";
 
+import { FavoritesContext } from "../../context/FavoritesContext.jsx";
+
 function CocktailSearch() {
     const [cocktails, setCocktails] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [ingredient, setIngredient] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
+    // const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
 
     useEffect(() => {
         fetchCategories();
@@ -24,7 +26,7 @@ function CocktailSearch() {
             const res = await axios.get(
                 "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list"
             );
-            setCategories(res.data.drinks || []);
+            // setCategories(res.data.drinks || []);
         } catch (err) {
             console.error("Error fetching categories:", err);
         }
