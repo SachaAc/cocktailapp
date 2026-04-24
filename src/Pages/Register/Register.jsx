@@ -11,15 +11,18 @@ function Register() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     async function handleRegister(e) {
         e.preventDefault();
+        setError("");
 
         try {
             await register(email, password);
             navigate("/login");
         } catch (err) {
             console.error("Registratie mislukt:", err);
+            setError("Registratie mislukt. Probeer het opnieuw.");
         }
     }
 
@@ -38,14 +41,20 @@ function Register() {
                     <input
                         type="email"
                         placeholder="Email"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
 
                     <input
                         type="password"
                         placeholder="Password"
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
+
+                    {error && <p className="error">{error}</p>}
 
                     <button type="submit" className="registerbutton">
                         Register

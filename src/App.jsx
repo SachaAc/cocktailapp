@@ -9,6 +9,7 @@ import Favorites from "./Pages/Favorites/Favorites.jsx";
 import Register from "./Pages/Register/Register.jsx";
 import {FavoritesProvider} from "./context/FavoritesContext";
 import Details from "./Pages/Details/Details.jsx";
+import PrivateRoute from "./context/PrivateRoute.jsx";
 
 
 function App() {
@@ -24,7 +25,14 @@ function App() {
                     <Route path="/cocktailoftheday" element={<Cocktailoftheday/>}/>
                     <Route path="/discover" element={<Discover/>}/>
                     <Route path="/cocktail/:id" element={<Details/>}/>
-                    <Route path="/favorites" element={isLoggedIn === true ? <Favorites/> : <Navigate to="/login"/>}/>
+                    <Route
+                        path="/favorites"
+                        element={
+                            <PrivateRoute>
+                                <Favorites />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route path="/register" element={<Register/>}/>
                 </Routes>
             </FavoritesProvider>

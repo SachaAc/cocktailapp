@@ -14,17 +14,36 @@ export function AuthProvider({ children }) {
     }, []);
 
     const register = async (email, password) => {
-        await axios.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/register", { email, password });
-    };
+        const API_KEY = import.meta.env.VITE_NOVI_API_KEY;
 
+        await axios.post(
+            "https://novi-backend-api-wgsgz.ondigitalocean.app/api/register",
+            { email, password },
+            {
+                headers: {
+                    "X-Api-Key": API_KEY
+                }
+            }
+        );
+    };
     const login = async (email, password) => {
-        const res = await axios.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/login", { email, password });
+        const API_KEY = import.meta.env.VITE_NOVI_API_KEY;
+
+        const res = await axios.post(
+            "https://novi-backend-api-wgsgz.ondigitalocean.app/api/login",
+            { email, password },
+            {
+                headers: {
+                    "X-Api-Key": API_KEY
+                }
+            }
+        );
 
         localStorage.setItem("token", res.data.accessToken);
-
         setUser(res.data.user);
         localStorage.setItem("user", JSON.stringify(res.data.user));
     };
+
 
 
     const logout = () => {

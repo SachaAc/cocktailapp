@@ -1,4 +1,4 @@
-import {useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
@@ -10,67 +10,92 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(email, password);
-        navigate("/favorites");
+        setError("");
+        setLoading(true);
+
+        try {
+            await login(email, password);
+            navigate("/favorites");
+        } catch (err) {
+            console.error("Login mislukt:", err);
+            setError("Login mislukt. Controleer je gegevens.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <>
-            <main>
-                <div className="loginwrapper">
-                    {/* LOGIN FORM ALLEEN TONEN ALS JE NIET INGELOGD BENT */}
-                    {!user && (
-                        <>
-                            <form onSubmit={handleSubmit} className="loginform" style={{
+        <main>
+            <div className="loginwrapper">
+
+                {!user && (
+                    <>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="loginform"
+                            style={{
                                 backgroundImage: `url(${clouds})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center"
-                            }}>
-                                <input
-                                    type="email"
-                                    placeholder="Email"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                <input
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                            }}
+                        >
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
 
-                                <button type="submit" className="loginbutton">Log in</button>
-                            </form>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
 
-                            <p className="register"
-                               style={{
-                                   backgroundImage: `url(${whitesatin})`,
-                                   backgroundSize: "cover",
-                                   backgroundPosition: "center"
-                               }}>
-                                No account yet? <Link to="/register">Register here</Link>
-                            </p>
+                            {error && <p className="error">{error}</p>}
 
-                            {/* TEKST ALS JE UITGELOGD BENT */}
-                            <p style={{ textAlign: "center", marginTop: "20px" }}>
-                                Je bent uitgelogd.
-                            </p>
-                        </>
-                    )}
-
-                    {user && (
-                        <div style={{ textAlign: "center", marginTop: "20px" }}>
-                            <button onClick={logout} className="loginbutton">
-                                Log uit
+                            <button type="submit" className="loginbutton" disabled={loading}>
+                                {loading ? "Logging in..." : "Log in"}
                             </button>
-                        </div>
-                    )}
+                        </form>
 
-                </div>
-            </main>
-        </>
+                        <p
+                            className="register"
+                            style={{
+                                backgroundImage: `url(${whitesatin})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center"
+                            }}
+                        >
+                            No account yet? <Link to="/register">Register here</Link>
+                        </p>
+
+                        <p style={{ textAlign: "center", marginTop: "20px" }}>
+                            Je bent uitgelogd.
+                        </p>
+                    </>
+                )}
+
+                {user && (
+                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+                        <button onClick={logout} className="loginbutton">
+                            Log uit
+                        </button>
+                    </div>
+                )}
+
+            </div>
+        </main>
     );
 }
 
