@@ -1,33 +1,41 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
+import './Login.css';
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
+import { useAuth } from '../../context/AuthContext.jsx';
+import React, { useState } from 'react';
 
 function Login() {
-    const { auth, login } = useAuth();
+    const { user, login, logout } = useAuth();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
-    async function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(false);
+        setError("");
+        setLoading(true);
 
         try {
             await login(email, password);
-            navigate("/profile");
-        } catch (e) {
-            console.error(e);
-            setError(true);
+            navigate("/favorites");
+        } catch (err) {
+            console.error("Login mislukt:", err);
+            setError("Login mislukt. Controleer je gegevens.");
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <main>
             <div className="loginwrapper">
-                {!auth.isAuth && (
+
+                {!user && (
                     <>
                         <form
                             onSubmit={handleSubmit}
@@ -35,7 +43,7 @@ function Login() {
                             style={{
                                 backgroundImage: `url(${clouds})`,
                                 backgroundSize: "cover",
-                                backgroundPosition: "center",
+                                backgroundPosition: "center"
                             }}
                         >
                             <input
@@ -43,6 +51,7 @@ function Login() {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
 
                             <input
@@ -50,30 +59,43 @@ function Login() {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
 
-                            {error && (
-                                <p className="error">
-                                    Combinatie van emailadres en wachtwoord is onjuist
-                                </p>
-                            )}
+                            {error && <p className="error">{error}</p>}
 
-                            <button type="submit" className="loginbutton">
-                                Log in
+                            <button type="submit" className="loginbutton" disabled={loading}>
+                                {loading ? "Logging in..." : "Log in"}
                             </button>
                         </form>
 
-                    {user && (
-                        <div style={{ textAlign: "center", marginTop: "20px" }}>
-                            <button onClick={logout} className="loginbutton">
-                                Log uit
-                            </button>
-                        </div>
-                    )}
+                        <p
+                            className="register"
+                            style={{
+                                backgroundImage: `url(${whitesatin})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center"
+                            }}
+                        >
+                            No account yet? <Link to="/register">Register here</Link>
+                        </p>
 
-                </div>
-            </main>
-        </>
+                        <p style={{ textAlign: "center", marginTop: "20px" }}>
+                            Je bent uitgelogd.
+                        </p>
+                    </>
+                )}
+
+                {user && (
+                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+                        <button onClick={logout} className="loginbutton">
+                            Log uit
+                        </button>
+                    </div>
+                )}
+
+            </div>
+        </main>
     );
 }
 
