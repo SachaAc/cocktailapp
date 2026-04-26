@@ -1,12 +1,12 @@
-import { useNavigate, Link } from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import './Login.css';
 import clouds from "../../assets/clouds.jpg";
 import whitesatin from "../../assets/whitesatin.jpg";
-import { useAuth } from '../../context/AuthContext.jsx';
-import React, { useState } from 'react';
+import {useAuth} from '../../context/AuthContext.jsx';
+import React, {useState} from 'react';
 
 function Login() {
-    const { user, login, logout } = useAuth();
+    const {user, login, logout} = useAuth();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -61,14 +61,11 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-
                             {error && <p className="error">{error}</p>}
-
                             <button type="submit" className="loginbutton" disabled={loading}>
                                 {loading ? "Logging in..." : "Log in"}
                             </button>
                         </form>
-
                         <p
                             className="register"
                             style={{
@@ -80,14 +77,13 @@ function Login() {
                             No account yet? <Link to="/register">Register here</Link>
                         </p>
 
-                        <p style={{ textAlign: "center", marginTop: "20px" }}>
+                        <p style={{textAlign: "center", marginTop: "20px"}}>
                             Je bent uitgelogd.
                         </p>
                     </>
                 )}
-
                 {user && (
-                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+                    <div style={{textAlign: "center", marginTop: "20px"}}>
                         <button onClick={logout} className="loginbutton">
                             Log uit
                         </button>
